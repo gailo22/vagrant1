@@ -32,16 +32,16 @@ $ kubectl port-forward nodehelloworld.example.com 8081:3000
 Forwarding from 127.0.0.1:8081 -> 3000
 Handling connection for 8081
 
-Montree-MacBook:~ montree$ curl localhost:8081
+$ curl localhost:8081
 Hello World!
 
-ontree-MacBook:k8s-ubuntu16 montree$ kubectl expose pod nodehelloworld.example.com --type=NodePort --name nodehelloworld-service
+$ kubectl expose pod nodehelloworld.example.com --type=NodePort --name nodehelloworld-service
 service "nodehelloworld-service" exposed
 
-Montree-MacBook:~ montree$ minikube service nodehelloworld-service --url
+$ minikube service nodehelloworld-service --url
 http://192.168.99.100:30298
 
-Montree-MacBook:~ montree$ curl http://192.168.99.100:30298
+$ curl http://192.168.99.100:30298
 Hello World!
 
 
