@@ -74,3 +74,39 @@ nyl3fy8khjqm        zookeeper           replicated          1/1                 
 ```
 
 You can see REPLICAS is 3/3 now.
+
+
+## Setup zookeeper cluster
+Previously we have only one zookeepr running. When we kill it whole solr cluster will die also.
+
+This time we will setup zookeeper cluster so it won't be a single point of failure.
+```
+ubuntu@master:~$ docker stack deploy -c stack.yml zookeeper
+Ignoring unsupported options: restart
+
+Creating network zookeeper_default
+Creating service zookeeper_zoo1
+Creating service zookeeper_zoo2
+Creating service zookeeper_zoo3
+
+ubuntu@master:~$ docker service create --name solr --replicas 2 --network zookeeper_default -p 8983:8983 \
+     solr \
+     bash -c '/opt/solr/bin/solr start -f -z zookeeper_zoo1:2181'
+
+ubuntu@master:~$ docker service ls
+ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
+l359lpddk7xf        solr                replicated          2/2                 solr:latest         *:8983->8983/tcp
+oygutb6npldk        zookeeper_zoo1      replicated          1/1                 zookeeper:latest    *:2181->2181/tcp
+hkovfzjrqgtq        zookeeper_zoo2      replicated          1/1                 zookeeper:latest    *:2182->2181/tcp
+ckkgzr99fkwi        zookeeper_zoo3      replicated          1/1                 zookeeper:latest    *:2183->2181/tcp
+```
+
+### Just kill it
+```
+ubuntu@master:~$ docker kill zookeeper_zoo1.1.sfued02721v2oww1pli56g15p
+zookeeper_zoo1.1.sfued02721v2oww1pli56g15p
+```
+It come back very fast and solr cluster still running fine. 
+This is very nice.
+
+Reference: by this [Link](https://docs.docker.com/samples/library/zookeeper/)
