@@ -1,4 +1,4 @@
-# vargrant 1
+# Swarm Cluster setup
 
 * This is to create 3 ubuntu vms to running docker swarm cluster
 
@@ -9,7 +9,7 @@ Install docker for all machine follow [this](https://www.digitalocean.com/commun
 ## Setup swarm cluster
 ```
 # Master node
-buntu@master:~$ docker swarm init --advertise-addr 10.0.0.10:2377
+ubuntu@master:~$ docker swarm init --advertise-addr 10.0.0.10:2377
 Swarm initialized: current node (vprjzyns8sc84eq54frb11lok) is now a manager.
 
 To add a worker to this swarm, run the following command:
@@ -34,7 +34,7 @@ tgxsa3o0g2clky5txqrguwvy7     node2               Ready               Active
 
 ```
 
-### Creae solr network
+### Create solr network
 ```
 ubuntu@master:~$ docker network create --driver overlay solr_net
 mlxvam35e6yjuftxcjvrbpqos
